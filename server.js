@@ -18,14 +18,22 @@ function onRequest(request, response) {
 	var pathname = url.parse(request.url).pathname;
 	var query = url.parse(request.url).query;
 	var callback = querystring.parse(request.url)["callback"];
-	if ( pathname === "/SASAplandata/" ) {
-		console.log("Request for " + query + " received.");
-		jsonRequest("http://opensasa.info/SASAplandata/?" + query, callback, response);
-	}
-	else {
-
-	response.write("Error");
-	response.end();
+	switch ( pathname ) {
+		case "/SASAplandata":
+				console.log("Request for " + query + " received.");
+				jsonRequest("http://opensasa.info/SASAplandata/?" + query, callback, response);
+				break;
+		case "/realtime":
+				console.log("Request for " + query + " received.");
+				jsonRequest("http://realtime.opensasa.info/positions?" + query, callback, response);
+				break;
+		case "/stationboard":
+				console.log("Request for " + query + " received.");
+				jsonRequest("http://stationboard.opensasa.info/?" + query, callback, response);
+				break;
+		default:
+				response.write("Error");
+				response.end();
 	}
 }
 
